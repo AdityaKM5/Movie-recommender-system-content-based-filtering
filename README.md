@@ -1,1 +1,1 @@
-# Movie-recommender-system-content-based-filtering
+# Movie-recommender-system
