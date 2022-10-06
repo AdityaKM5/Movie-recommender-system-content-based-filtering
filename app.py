@@ -9,7 +9,13 @@ def fetch_movie_poster(movie_id):
     poster_path = data['poster_path']
     full_path = "https://image.tmdb.org/t/p/w500/" + poster_path
     return full_path
-
+def fetch_movie():
+   movie_name=[]
+   movie_poster=[]
+   for i in popular.index:
+      movie_name.append(popular['original_title'][i])
+      movie_poster.append(fetch_movie_poster(popular['tmdbId'][i]))
+   return movie_name,movie_poster
 def recommend(movie):
     index = movies[movies['title'] == movie].index[0]
     distances = sorted(list(enumerate(similarity[index])), reverse=True, key=lambda x: x[1])
@@ -27,6 +33,7 @@ def recommend(movie):
 st.header('Movie Recommender System')
 movies = pickle.load(open('movie_list.pkl','rb'))
 similarity = pickle.load(open('similarity.pkl','rb'))
+popular= pickle.load(open('popular.pkl','rb'))
 
 movie_list = movies['title'].values
 selected_movie = st.selectbox("Type or select a movie from the dropdown",movie_list)
@@ -50,3 +57,33 @@ if st.button('Show Recommendation'):
     with column5:
         st.text(recommend_movie_names[4])
         st.image(recommend_movie_posters[4])
+
+st.header('Top 30 Most Popular Movies On TMDB:')
+popular_movie_name,popular_movie_poster= fetch_movie()
+i=0
+while i < 30:
+    column1, column2, column3, column4, column5 , column6 = st.columns(6)
+    with column1:
+        st.text(popular_movie_name[i])
+        st.image(popular_movie_poster[i])
+        i+=1;
+    with column2:
+        st.text(popular_movie_name[i])
+        st.image(popular_movie_poster[i])
+        i += 1;
+    with column3:
+        st.text(popular_movie_name[i])
+        st.image(popular_movie_poster[i])
+        i += 1;
+    with column4:
+        st.text(popular_movie_name[i])
+        st.image(popular_movie_poster[i])
+        i += 1;
+    with column5:
+        st.text(popular_movie_name[i])
+        st.image(popular_movie_poster[i])
+        i += 1;
+    with column6:
+        st.text(popular_movie_name[i])
+        st.image(popular_movie_poster[i])
+        i += 1;
